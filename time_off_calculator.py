@@ -44,22 +44,30 @@ def hours_eligible(as_of_date=date.today()):
     sick_hours_eligible=worked_weeks*SICK_PER_WEEK
     return vacation_hours_eligible,sick_hours_eligible
 
-def time_off_stats(data):
-    vacation_hours_eligible,sick_hours_eligible=hours_eligible()
+def time_off_stats(data,as_of_date=date.today()):
+    vacation_hours_eligible,sick_hours_eligible=hours_eligible(as_of_date)
     vacation_hours_used,sick_hours_used=hours_used(data)
-
+    sick_hours_balance=sick_hours_eligible-sick_hours_used
+    vacation_hours_balance=vacation_hours_eligible-vacation_hours_used
+    print("********************************************************************")
+    print("Employee Start Date:",START_DATE.isoformat())
+    print("Today's date:",as_of_date.isoformat())
     print("Vacation Total Hours per Year",VACATION_HOURS)
     print("Vacation Total Hours per Week",VACATION_PER_WEEK)
     print("Vacation Hours Used",vacation_hours_used)
     print("Vacation Hours Eligible",vacation_hours_eligible)
-    print("Vacation Hours Balance",vacation_hours_eligible-vacation_hours_used)
-
+    print("Vacation Hours Balance",vacation_hours_balance)
+    
     print("Sick Total Hours per Year",SICK_HOURS)
     print("Sick Total Hours per Week",SICK_PER_WEEK)
     print("Sick Hours Used",sick_hours_used)
     print("Sick Hours Eligible",sick_hours_eligible)
-    print("Sick Hours Balance",sick_hours_eligible-sick_hours_used)
+    print("Sick Hours Balance",sick_hours_balance)
 
+    print("Total Hours Used",sick_hours_used+vacation_hours_used)
+    print("Total Hours Eligible",sick_hours_eligible+vacation_hours_eligible)
+    print("Total Hours Balance",sick_hours_balance+vacation_hours_balance)
+    print("********************************************************************")
 
 def get_credentials():
     home_dir = os.path.expanduser('~')
